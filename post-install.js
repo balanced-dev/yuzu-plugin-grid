@@ -3,23 +3,23 @@ const path = require('path');
 const files = [ 
     {
         source: './_dev/_templates/blocks/gridBuilder/parGridBuilderItems.schema',
-        dest: '../../_dev/_templates/blocks/parGridBuilderItems.schema',
+        dest: '../../_dev/_templates/blocks/gridBuilder/parGridBuilderItems.schema',
     },
     {
         source: './_dev/_templates/blocks/gridBuilder/parGridBuilderRowConfig.schema',
-        dest: '../../_dev/_templates/blocks/parGridBuilderRowConfig.schema',
+        dest: '../../_dev/_templates/blocks/gridBuilder/parGridBuilderRowConfig.schema',
     },
     {
         source: './_dev/_templates/blocks/gridBuilder/parGridBuilderColumnConfig.schema',
-        dest: '../../_dev/_templates/blocks/parGridBuilderColumnConfig.schema',
+        dest: '../../_dev/_templates/blocks/gridBuilder/parGridBuilderColumnConfig.schema',
     },
     {
         source: './_dev/_templates/blocks/rowBuilder/parRowBuilderItems.schema',
-        dest: '../../_dev/_templates/blocks/parRowBuilderItems.schema',
+        dest: '../../_dev/_templates/blocks/rowBuilder/parRowBuilderItems.schema',
     },
     {
         source: './_dev/_templates/blocks/rowBuilder/parRowBuilderConfig.schema',
-        dest: '../../_dev/_templates/blocks/parRowBuilderConfig.schema',
+        dest: '../../_dev/_templates/blocks/rowBuilder/parRowBuilderConfig.schema',
     },
     {
         source: './_dev/_templates/_dataStructures/dataGrid.schema',
@@ -34,8 +34,9 @@ const files = [
 console.log(`Yuzu Definition Grid Plugin PostInstall`);
 
 files.forEach((file) => {
-    if(fs.existsSync(path.dirname(file.dest))) {
-        if(fs.existsSync(file.dest)) {
+    if(fs.existsSync('../../package.json')) {
+        let destPath = path.dirname(file.dest);
+        if(fs.existsSync(destPath) && fs.existsSync(file.dest)) {
             console.log(`${file.dest} already installed, not overwriting`);
         }
         else if(!fs.existsSync(file.source))  {
@@ -43,6 +44,9 @@ files.forEach((file) => {
         }
         else {
             console.log(`Installing file to ${file.dest}`);
+            if(!fs.existsSync(destPath)) {
+                fs.mkdirSync(destPath, { recursive: true })
+            }
             fs.renameSync(file.source, file.dest);
         }
     }
