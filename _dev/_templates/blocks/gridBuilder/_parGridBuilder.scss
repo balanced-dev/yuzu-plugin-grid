@@ -1,0 +1,202 @@
+$grid-builder__column-count: 12;
+
+@mixin grid-builder__grid-columns($gap: var(--grid-builder__column-gap, 0)) {
+    column-gap: $gap;
+    display: grid;
+    grid-template-columns: repeat(var(--grid-builder__column-count, 12), minmax(0, 1fr));
+}
+
+:root {
+    --grid-builder__column-gap: #{$column-gutter-default * 2};
+    --grid-builder__column-count: #{$grid-builder__column-count};
+
+    // Collapse all column gaps on mobile only
+    @include respond-upto($media-query-smallmedium) {
+        --grid-builder__collapsing-column-gap: 0;
+    }
+
+    @include respond-from($media-query-smallmedium) {
+        --grid-builder__collapsing-column-gap: var(--grid-builder__column-gap);
+    }
+}
+
+@include backend-specific {
+    --grid-builder__column-gap: #{$column-gutter-default * 2};
+    --grid-builder__column-count: #{$grid-builder__column-count};
+}
+
+.grid-builder {
+    $this: '.grid-builder';
+
+    --grid-builder__column-count: #{$grid-builder__column-count};
+    background-color: var(--background-fallback);
+    overflow-x: hidden;
+    overflow-x: clip;
+
+    $baseValue: size($rem-base);
+    $spacingProperties: (padding: (top,
+            bottom),
+        margin: (top,
+            bottom));
+
+    &__row {
+
+        background: var(--grid-builder__background, '');
+        background-color: var(--grid-builder__background-colour, var(--grid-builder__background-fallback));
+        column-gap: var(--grid-builder__collapsing-column-gap);
+        display: grid;
+        grid-template-columns: repeat(#{$grid-builder__column-count}, minmax(0, 1fr));
+        position: relative;
+        justify-content: start;
+        row-gap: $column-gutter-default * 2;
+
+        z-index: 1;
+
+        // Row number controls column stacking
+        @include respond-upto($media-query-small) {
+            --row-number: var(--row-number--small);
+        }
+
+        @include respond-between($media-query-small, $media-query-medium) {
+            --row-number: var(--row-number--medium);
+        }
+
+        @include respond-between($media-query-medium, $media-query-large) {
+            --row-number: var(--row-number--large);
+        }
+
+        @include respond-from($media-query-large) {
+            --row-number: var(--row-number--xlarge);
+        }
+
+        @each $propertyType,
+        $propertyDirections in $spacingProperties {
+            @each $direction in $propertyDirections {
+                $propertyFull: #{$propertyType}-#{$direction};
+
+                @include respond-upto($media-query-small) {
+                    #{$propertyFull}: calc(var(--#{$propertyFull}--small, 0) * #{$baseValue});
+                }
+
+                @include respond-between($media-query-small, $media-query-medium) {
+                    #{$propertyFull}: calc(var(--#{$propertyFull}--medium, 0) * #{$baseValue});
+                }
+
+                @include respond-between($media-query-medium, $media-query-large) {
+                    #{$propertyFull}: calc(var(--#{$propertyFull}--large, 0) * #{$baseValue});
+                }
+
+                @include respond-from($media-query-large) {
+                    #{$propertyFull}: calc(var(--#{$propertyFull}--xlarge, 0) * #{$baseValue});
+                }
+            }
+        }
+
+        @include respond-upto($media-query-small) {
+            --content-shift: var(--content-shift--small, 0);
+        }
+
+        @include respond-between($media-query-small, $media-query-medium) {
+            --content-shift: var(--content-shift--medium, 0);
+        }
+
+        @include respond-between($media-query-medium, $media-query-large) {
+            --content-shift: var(--content-shift--large, 0);
+        }
+
+        @include respond-from($media-query-large) {
+            --content-shift: var(--content-shift--xlarge, 0);
+        }
+
+        &--container {
+            @include container;
+
+            #{$this}__col {
+                // Looks complicated but it isn't too bad really.
+                // Placed in quotes to avoid SCSS running it's own implementation of 'min' function
+                // Uses min function to find the smallest (most negative) value (so only container-gutter-margin OR container-gutter-margin overrides are applied)
+
+                margin-left: unquote('min(      (var(--container-gutter-margin) * (var(--override-gutter-margin-left) * -1)),   (var(--container-gutter-width) * (var(--override-gutter-width-left) * -1))  )');
+                margin-right: unquote('min(     (var(--container-gutter-margin) * (var(--override-gutter-margin-right) * -1)),  (var(--container-gutter-width) * (var(--override-gutter-width-right) * -1)) )');
+
+                @include respond-upto($media-query-small) {
+                    --override-gutter-margin-left: var(--override-gutter-margin-left--small, 0);
+                    --override-gutter-margin-right: var(--override-gutter-margin-right--small, 0);
+
+                    --override-gutter-width-left: var(--override-gutter-width-left--small, 0);
+                    --override-gutter-width-right: var(--override-gutter-width-right--small, 0);
+                }
+
+                @include respond-between($media-query-small, $media-query-medium) {
+                    --override-gutter-margin-left: var(--override-gutter-margin-left--medium, 0);
+                    --override-gutter-margin-right: var(--override-gutter-margin-right--medium, 0);
+
+                    --override-gutter-width-left: var(--override-gutter-width-left--medium, 0);
+                    --override-gutter-width-right: var(--override-gutter-width-right--medium, 0);
+                }
+
+                @include respond-between($media-query-medium, $media-query-large) {
+                    --override-gutter-margin-left: var(--override-gutter-margin-left--large, 0);
+                    --override-gutter-margin-right: var(--override-gutter-margin-right--large, 0);
+
+                    --override-gutter-width-left: var(--override-gutter-width-left--large, 0);
+                    --override-gutter-width-right: var(--override-gutter-width-right--large, 0);
+                }
+
+                @include respond-from($media-query-large) {
+                    --override-gutter-margin-left: var(--override-gutter-margin-left--xlarge, 0);
+                    --override-gutter-margin-right: var(--override-gutter-margin-right--xlarge, 0);
+
+                    --override-gutter-width-left: var(--override-gutter-width-left--xlarge, 0);
+                    --override-gutter-width-right: var(--override-gutter-width-right--xlarge, 0);
+                }
+            }
+        }
+
+        &--content-shift {
+            #{$this}__col {
+                transform: translateY(calc(var(--content-shift, 0) * #{$baseValue}));
+            }
+        }
+
+        &--background-colour {
+            &-dark-chocolate {
+                --grid-builder__background-colour: #{$colour-dark-chocolate};
+            }
+
+            &-grey-100 {
+                --grid-builder__background-colour: #{$colour-grey-100};
+            }
+
+            &-white {
+                --grid-builder__background-colour: #{$colour-white};
+            }
+        }
+    }
+
+    &__col {
+        align-self: var(--align-vertical);
+        grid-column: var(--column);
+        // Controls stacking- uses var(--row-number) (i.e. 1 if not stacked), fallsback to using index if not set
+        grid-row: var(--row-number, var(--index)) / span 1;
+        justify-self: var(--align-horizontal);
+
+        container-type: inline-size;
+
+        @include respond-upto($media-query-small) {
+            --column: var(--column--small);
+        }
+
+        @include respond-between($media-query-small, $media-query-medium) {
+            --column: var(--column--medium);
+        }
+
+        @include respond-between($media-query-medium, $media-query-large) {
+            --column: var(--column--large);
+        }
+
+        @include respond-from($media-query-large) {
+            --column: var(--column--xlarge);
+        }
+    }
+}
