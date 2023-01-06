@@ -3,31 +3,31 @@ const path = require('path');
 const files = [ 
     {
         source: './_dev/_templates/blocks/gridBuilder/parGridBuilderItems.schema',
-        dest: '../../_dev/_templates/blocks/gridBuilder/parGridBuilderItems.schema',
+        dest: '../../_dev/_templates/blocks/_grid/gridBuilder/parGridBuilderItems.schema',
     },
     {
         source: './_dev/_templates/blocks/gridBuilder/parGridBuilderRowConfig.schema',
-        dest: '../../_dev/_templates/blocks/gridBuilder/parGridBuilderRowConfig.schema',
+        dest: '../../_dev/_templates/blocks/_grid/gridBuilder/parGridBuilderRowConfig.schema',
     },
     {
         source: './_dev/_templates/blocks/gridBuilder/parGridBuilderColumnConfig.schema',
-        dest: '../../_dev/_templates/blocks/gridBuilder/parGridBuilderColumnConfig.schema',
+        dest: '../../_dev/_templates/blocks/_grid/gridBuilder/parGridBuilderColumnConfig.schema',
     },
     {
         source: './_dev/_templates/blocks/rowBuilder/parRowBuilderItems.schema',
-        dest: '../../_dev/_templates/blocks/rowBuilder/parRowBuilderItems.schema',
+        dest: '../../_dev/_templates/blocks/_row/rowBuilder/parRowBuilderItems.schema',
     },
     {
         source: './_dev/_templates/blocks/rowBuilder/parRowBuilderConfig.schema',
-        dest: '../../_dev/_templates/blocks/rowBuilder/parRowBuilderConfig.schema',
+        dest: '../../_dev/_templates/blocks/_row/rowBuilder/parRowBuilderConfig.schema',
     },
     {
         source: './_dev/_templates/_dataStructures/dataGrid.schema',
-        dest: '../../_dev/_templates/_dataStructures/dataGrid.schema'
+        dest: '../../_dev/_templates/_dataStructures/_grid/dataGrid.schema'
     },
     {
         source: './_dev/_templates/_dataStructures/dataRows.schema',
-        dest: '../../_dev/_templates/_dataStructures/dataRows.schema'
+        dest: '../../_dev/_templates/_dataStructures/_row/dataRows.schema'
     }
 ];
 
