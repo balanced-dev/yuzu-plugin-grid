@@ -1,6 +1,6 @@
 {
   "name": "yuzu-plugin-grid",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,8 @@
   ],
   "dependencies": {
     "formbouncerjs": "^1.4.6",
-    "stimulus": "^1.1.1"
+    "stimulus": "^1.1.1",
+    "yuzu-plugin-core": "^1.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
