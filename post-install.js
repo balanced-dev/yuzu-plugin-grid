@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const core = require('yuzu-plugin-core');
 const files = [ 
     {
@@ -20,4 +22,4 @@ const files = [
 
 console.log(`Yuzu Definition Grid Plugin PostInstall`);
 
-core.postInstallManageFiles(files);
+core.postInstallManageFiles(fs, path, files);
